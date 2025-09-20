@@ -1,0 +1,15 @@
+[
+  {
+    "AmzDataAnalysis": {
+      "host": "",
+      "port": "",
+      "service": [
+        {
+          "opeartor": {
+            "path": ""
+          }
+        }
+      ]
+    }
+  }
+]
