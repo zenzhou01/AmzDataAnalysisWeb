@@ -4,6 +4,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import DataAnalyz from '../views/DataAnalyz.vue'
+import TaskLayout from '../views/TaskLayout.vue'
+import Task from '../views/Task.vue'
+import TaskHistory from '../views/TaskHistory.vue'
 
 //  •	定义路由表，每条路由包含：
 //  •	path：路由路径
@@ -12,6 +15,14 @@ import DataAnalyz from '../views/DataAnalyz.vue'
 const routes = [
     { path: '/', component: Home, name: 'Home' },
     { path: '/dataAnalyz', component: DataAnalyz, name: 'DataAnalyz' },
+    {
+        path: '/task',
+        component: TaskLayout,
+        children: [
+            { path: '/task/tasklist', component: Task },
+            { path: '/task/taskhistory', component: TaskHistory },
+        ]
+    },
     { path: '/about', component: About, name: 'About' },
 ]
 
