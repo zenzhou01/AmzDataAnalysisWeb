@@ -54,15 +54,14 @@ export function GetTagOptions(params) {
 }
 
 
-export function TaskLoadKeywordData(params) {
-    console.log(params)
+export function TaskExcute(taskname,taskparams) {
     var serviceConfig = apiConfig.default[0].AmzDataAnalysis
-    var servicePath = serviceConfig.service.loadKeywordData.path
+    var servicePath = serviceConfig.service.taskExcute.path
     var baseURL = `http://${serviceConfig.host}:${serviceConfig.port}`
 
     var request = axios.create({
         baseURL,
         timeout: 5000
     })
-    return request.post(servicePath, params)
+    return request.post(servicePath, {"task_name":taskname,"task_params":taskparams})
 }

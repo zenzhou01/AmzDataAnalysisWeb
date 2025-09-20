@@ -13,8 +13,8 @@
         "getTagOptions": {
           "path": "api/keyword/web/v1/getTagOptions"
         },
-        "loadKeywordData": {
-          "path": "api/keyword/library/v1/timed/task/loadKeywordData"
+        "taskExcute": {
+          "path": "/api/task/v1/excute"
         }
       }
     }

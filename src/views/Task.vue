@@ -29,26 +29,38 @@
 
 <script setup>
 import {ref} from 'vue'
-import {TaskLoadKeywordData} from "../api/request.js";
+import {TaskExcute} from "../api/request.js";
 import {showGlobalToast} from '@/utils/toastManager.js'
+import ErrorIcon from "@/components/icons/ErrorIcon.vue";
+import SuccessIcon from "@/components/icons/SuccessIcon.vue";
 
 
 const tasks = ref([
   {
     id: 1,
-    name: '同步词库数据',
+    name: '同步关键词历史数据',
     desc: '把卖家精灵中的词库的所有数据包括历史数据加载过来，执行时间比较久',
-    task: TaskLoadKeywordData
+    task: TaskExcute
   },
 ])
 
-const runTask = (task) => {
+const runTask = async (task) => {
   console.log(`执行任务: ${task.name}`)
+  var rsp = await task.task(task.name,{"date": ["202311"]})
+  console.log(rsp)
 
-  var rsp = task.task({"date": ["202311"]})
-  if (rsp.code == 0 && rsp.data.errno ==0){
-    showGlobalToast({message: data.errmsg || '接口返回错误', type: 'su', icon: ErrorIcon, duration: 1000})
+  var data = rsp.data
+  console.log(data)
+  try {
+    if (data.errno !== 0) {
+      showGlobalToast({message: data.errmsg, type: 'error', icon: ErrorIcon, duration: 1000})
 
+    } else {
+      showGlobalToast({message: data.errmsg, type: 'success', icon: SuccessIcon, duration: 1000})
+
+    }
+  } catch (err) {
+    showGlobalToast({message: err.message, type: 'error', icon: ErrorIcon, duration: 1000})
   }
 
 
