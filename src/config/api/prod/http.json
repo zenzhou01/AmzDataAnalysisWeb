@@ -1,7 +1,7 @@
 [
   {
     "AmzDataAnalysis": {
-      "host": "backend",
+      "host": "amz_data_analysis",
       "port": "8000",
       "service": {
         "opeartor": {
