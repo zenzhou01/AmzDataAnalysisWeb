@@ -50,11 +50,11 @@ export function GetTagOptions(params) {
         baseURL,
         timeout: 5000
     })
-    return request.get(servicePath, {params:params})
+    return request.get(servicePath, {params: params})
 }
 
 
-export function TaskExcute(taskname,taskparams) {
+export function TaskExcute(taskname, taskparams) {
     var serviceConfig = apiConfig.default[0].AmzDataAnalysis
     var servicePath = serviceConfig.service.taskExcute.path
     var baseURL = `http://${serviceConfig.host}:${serviceConfig.port}`
@@ -63,5 +63,48 @@ export function TaskExcute(taskname,taskparams) {
         baseURL,
         timeout: 5000
     })
-    return request.post(servicePath, {"task_name":taskname,"task_params":taskparams})
+    return request.post(servicePath, {"task_name": taskname, "task_params": taskparams})
+}
+
+export function GetTaskExcuteHistoryList(page, size) {
+    var serviceConfig = apiConfig.default[0].AmzDataAnalysis
+    var servicePath = serviceConfig.service.getTaskExcuteInfoList.path
+    var baseURL = `http://${serviceConfig.host}:${serviceConfig.port}`
+
+    var request = axios.create({
+        baseURL,
+        timeout: 5000
+    })
+    return request.post(servicePath, {
+        "page": page,
+        "size": size
+    })
+}
+
+export function GetTaskExcuteHistory(taskid) {
+    var serviceConfig = apiConfig.default[0].AmzDataAnalysis
+    var servicePath = serviceConfig.service.getTaskExcuteInfo.path
+    var baseURL = `http://${serviceConfig.host}:${serviceConfig.port}`
+
+    var request = axios.create({
+        baseURL,
+        timeout: 5000
+    })
+    return request.post(servicePath, {
+        "task_id": taskid,
+    })
+}
+
+export function RetryTask(retryid) {
+    var serviceConfig = apiConfig.default[0].AmzDataAnalysis
+    var servicePath = serviceConfig.service.taskExcute.path
+    var baseURL = `http://${serviceConfig.host}:${serviceConfig.port}`
+
+    var request = axios.create({
+        baseURL,
+        timeout: 5000
+    })
+    return request.post(servicePath, {
+        "retry_id": retryid,
+    })
 }

@@ -15,6 +15,12 @@
         },
         "taskExcute": {
           "path": "/api/task/v1/excute"
+        },
+        "getTaskExcuteInfoList": {
+          "path": "/api/task/v1/excuteInfoList"
+        },
+        "getTaskExcuteInfo": {
+          "path": "/api/task/v1/excuteInfo"
         }
       }
     }
