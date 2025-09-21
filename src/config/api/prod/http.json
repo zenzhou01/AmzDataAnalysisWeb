@@ -1,15 +1,28 @@
 [
   {
     "AmzDataAnalysis": {
-      "host": "",
-      "port": "",
-      "service": [
-        {
-          "opeartor": {
-            "path": ""
-          }
+      "host": "127.0.0.1",
+      "port": "8000",
+      "service": {
+        "opeartor": {
+          "path": "api/keyword/analysis/v1/opeartor"
+        },
+        "getLibraryOptions": {
+          "path": "api/keyword/web/v1/getLibraryOptions"
+        },
+        "getTagOptions": {
+          "path": "api/keyword/web/v1/getTagOptions"
+        },
+        "taskExcute": {
+          "path": "/api/task/v1/excute"
+        },
+        "getTaskExcuteInfoList": {
+          "path": "/api/task/v1/excuteInfoList"
+        },
+        "getTaskExcuteInfo": {
+          "path": "/api/task/v1/excuteInfo"
         }
-      ]
+      }
     }
   }
 ]
