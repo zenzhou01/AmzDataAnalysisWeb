@@ -121,8 +121,8 @@ const changePage = (page) => {
 
 // ---------------- 单行刷新 ----------------
 const refreshTask = async (taskId) => {
-  if (isLoading(taskId)) return
-  loadingTasks.value.push(taskId)
+
+  if (!isLoading(taskId)) loadingTasks.value.push(taskId)
 
   try {
     console.log("单行刷新",taskId)
