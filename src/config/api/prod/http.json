@@ -1,8 +1,8 @@
 [
   {
     "AmzDataAnalysis": {
-      "host": "amz_data_analysis",
-      "port": "8000",
+      "host": "localhost",
+      "port": "8089",
       "service": {
         "opeartor": {
           "path": "api/keyword/analysis/v1/opeartor"
