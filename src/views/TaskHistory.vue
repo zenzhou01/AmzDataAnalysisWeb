@@ -78,7 +78,7 @@ const tasks = ref([])
 const currentPage = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
-const loadingTasks = ref([]) // 正在刷新或重试的任务ID
+const loadingTasks = ref([]) // 手动刷新或重试任务ID
 
 // 总页数
 const totalPages = computed(() => Math.ceil(total.value / pageSize.value))
@@ -120,12 +120,10 @@ const changePage = (page) => {
 }
 
 // ---------------- 单行刷新 ----------------
-const refreshTask = async (taskId) => {
-
-  if (!isLoading(taskId)) loadingTasks.value.push(taskId)
+const refreshTask = async (taskId, isAuto = false) => {
+  if (!isAuto && !isLoading(taskId)) loadingTasks.value.push(taskId)
 
   try {
-    console.log("单行刷新",taskId)
     const res = await GetTaskExcuteHistory(taskId)
     const data = res.data
     if (data.errno === 0) {
@@ -135,12 +133,16 @@ const refreshTask = async (taskId) => {
         tasks.value[index] = { ...updatedTask } // Vue 响应式更新
       }
     } else {
-      showGlobalToast({ message: data.errmsg || '刷新任务失败', type: 'warning', icon: ErrorIcon, duration: 1000 })
+      if (!isAuto) {
+        showGlobalToast({ message: data.errmsg || '刷新任务失败', type: 'warning', icon: ErrorIcon, duration: 1000 })
+      }
     }
   } catch (err) {
-    showGlobalToast({ message: err.message || '网络请求失败', type: 'error', icon: ErrorIcon, duration: 1000 })
+    if (!isAuto) {
+      showGlobalToast({ message: err.message || '网络请求失败', type: 'error', icon: ErrorIcon, duration: 1000 })
+    }
   } finally {
-    loadingTasks.value = loadingTasks.value.filter(id => id !== taskId)
+    if (!isAuto) loadingTasks.value = loadingTasks.value.filter(id => id !== taskId)
   }
 }
 
@@ -156,8 +158,6 @@ const retryTask = async (taskId) => {
     if (data.errno === 0) {
       // 延迟 500ms 等后端处理
       await sleep(500)
-      console.log("只刷新当前行")
-      console.log(taskId)
       await refreshTask(taskId) // 只刷新当前行
     } else {
       showGlobalToast({ message: data.errmsg || '接口返回错误', type: 'warning', icon: ErrorIcon, duration: 1000 })
@@ -169,12 +169,12 @@ const retryTask = async (taskId) => {
   }
 }
 
-// ---------------- 全局定时刷新执行中任务 ----------------
+// ---------------- 自动刷新执行中任务（不影响按钮） ----------------
 let intervalId = null
 const autoRefreshTasks = async () => {
   const runningTasks = tasks.value.filter(task => task.status === 0)
   for (const task of runningTasks) {
-    await refreshTask(task.id)
+    await refreshTask(task.id, true) // 自动刷新不改变按钮
   }
 }
 

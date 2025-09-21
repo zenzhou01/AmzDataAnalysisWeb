@@ -46,7 +46,7 @@ const tasks = ref([
 
 const runTask = async (task) => {
   console.log(`执行任务: ${task.name}`)
-  var rsp = await task.task(task.name,{"date": ["202311"]})
+  var rsp = await task.task(task.name,{})
   console.log(rsp)
 
   var data = rsp.data
